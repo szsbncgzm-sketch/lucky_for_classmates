@@ -1,0 +1,5 @@
+{
+  "name": "同学聚会送红包抽奖",
+  "description": "基于 React 的纯视觉震撼红包抽奖 Web 应用，支持 Excel/CSV 导入，Framer Motion 动画与全屏撒花特效。",
+  "requestFramePermissions": []
+}
