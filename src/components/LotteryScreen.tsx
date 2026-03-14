@@ -31,14 +31,14 @@ export function LotteryScreen({
           angle: 60,
           spread: 55,
           origin: { x: 0 },
-          colors: ['#FFD700', '#FF0000', '#FFFFFF']
+          colors: ['#60A5FA', '#A78BFA', '#FFFFFF']
         });
         confetti({
           particleCount: 5,
           angle: 120,
           spread: 55,
           origin: { x: 1 },
-          colors: ['#FFD700', '#FF0000', '#FFFFFF']
+          colors: ['#60A5FA', '#A78BFA', '#FFFFFF']
         });
 
         if (Date.now() < end) {
@@ -50,25 +50,27 @@ export function LotteryScreen({
   }, [winner]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full p-8">
-      {/* Title */}
-      <motion.h1 
-        initial={{ opacity: 0, y: -20 }}
+    <div className="flex h-full w-full flex-col items-center justify-center p-6 sm:p-8">
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 to-yellow-500 mb-12 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]"
-        style={{ fontFamily: '"Playfair Display", serif' }}
+        className="mb-5 flex items-center gap-2 text-xs text-slate-200/70"
       >
-        幸运大抽奖
-      </motion.h1>
+        <span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1">
+          奖池 {poolSize} 人
+        </span>
+        <span className="hidden sm:inline">抽奖过程支持随时停止并锁定当前人选</span>
+      </motion.div>
 
       {/* Main Display Area */}
-      <div className="relative w-full max-w-3xl aspect-[2/1] bg-red-950/40 backdrop-blur-xl border-4 border-yellow-500/50 rounded-3xl shadow-[0_0_50px_rgba(234,179,8,0.2)] flex items-center justify-center overflow-hidden">
-        
-        {/* Corner Ornaments */}
-        <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-yellow-500/50 rounded-tl-lg" />
-        <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-yellow-500/50 rounded-tr-lg" />
-        <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-yellow-500/50 rounded-bl-lg" />
-        <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-yellow-500/50 rounded-br-lg" />
+      <div className="mac-card relative flex aspect-[2/1] w-full max-w-3xl items-center justify-center overflow-hidden">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-70"
+          style={{
+            background:
+              'radial-gradient(900px 420px at 30% 20%, rgba(99,102,241,0.35), transparent 55%), radial-gradient(800px 520px at 76% 72%, rgba(56,189,248,0.22), transparent 58%)'
+          }}
+        />
 
         <AnimatePresence mode="wait">
           {currentCandidate ? (
@@ -84,8 +86,8 @@ export function LotteryScreen({
               }
               className={`text-6xl md:text-8xl font-black tracking-wider ${
                 winner 
-                  ? 'text-yellow-400 drop-shadow-[0_0_30px_rgba(250,204,21,0.8)]' 
-                  : 'text-white/90 drop-shadow-lg'
+                  ? 'text-white drop-shadow-[0_0_34px_rgba(99,102,241,0.55)]' 
+                  : 'text-white/92 drop-shadow-[0_10px_35px_rgba(0,0,0,0.45)]'
               }`}
             >
               {currentCandidate}
@@ -94,7 +96,7 @@ export function LotteryScreen({
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-3xl text-yellow-500/50 font-medium tracking-widest"
+              className="text-2xl font-semibold tracking-wide text-white/55"
             >
               等待抽取...
             </motion.div>
@@ -103,19 +105,18 @@ export function LotteryScreen({
       </div>
 
       {/* Controls */}
-      <div className="mt-12 flex flex-col items-center gap-4">
+      <div className="mt-8 flex flex-col items-center gap-3">
         <button
           onClick={isRolling ? onStop : onStart}
           disabled={poolSize === 0 && !isRolling}
-          className={`
-            relative group overflow-hidden rounded-full px-12 py-4 text-2xl font-bold tracking-widest transition-all duration-300
-            ${poolSize === 0 && !isRolling 
-              ? 'bg-gray-800 text-gray-500 cursor-not-allowed border-2 border-gray-700' 
+          className={[
+            'mac-button relative group overflow-hidden px-10 py-3 text-lg font-semibold tracking-wide',
+            poolSize === 0 && !isRolling
+              ? 'cursor-not-allowed opacity-40'
               : isRolling
-                ? 'bg-gradient-to-r from-red-600 to-red-700 text-white border-2 border-red-400 shadow-[0_0_30px_rgba(220,38,38,0.6)] hover:scale-105'
-                : 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-red-950 border-2 border-yellow-300 shadow-[0_0_30px_rgba(234,179,8,0.4)] hover:scale-105'
-            }
-          `}
+                ? 'mac-button-danger'
+                : 'mac-button-primary'
+          ].join(' ')}
         >
           {/* Shine effect */}
           <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -123,9 +124,7 @@ export function LotteryScreen({
           {isRolling ? '停！' : '开始抽奖'}
         </button>
         
-        <p className="text-yellow-500/60 text-sm font-mono">
-          奖池剩余: {poolSize} 人
-        </p>
+        <p className="text-xs font-mono text-slate-200/60">奖池剩余: {poolSize} 人</p>
       </div>
     </div>
   );

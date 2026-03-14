@@ -7,13 +7,13 @@ interface WinnersListProps {
 
 export function WinnersList({ winners }: WinnersListProps) {
   return (
-    <div className="w-72 bg-black/40 backdrop-blur-md border-l border-yellow-500/20 h-full p-6 flex flex-col text-white/90">
-      <div className="flex items-center gap-3 mb-6">
-        <Trophy className="w-6 h-6 text-yellow-400" />
-        <h2 className="text-xl font-bold text-yellow-400 tracking-wider">中奖名单</h2>
+    <div className="flex h-full min-h-0 flex-col p-5 text-white/90">
+      <div className="mb-5 flex items-center gap-3">
+        <Trophy className="h-5 w-5 text-violet-200/90" />
+        <h2 className="text-base font-semibold tracking-tight text-white/90">中奖名单</h2>
       </div>
 
-      <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+      <div className="custom-scrollbar flex-1 overflow-y-auto pr-2">
         <div className="space-y-3">
           <AnimatePresence initial={false}>
             {winners.map((winner, index) => (
@@ -22,18 +22,18 @@ export function WinnersList({ winners }: WinnersListProps) {
                 initial={{ opacity: 0, x: 20, scale: 0.9 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                className="flex items-center gap-3 bg-gradient-to-r from-yellow-500/20 to-transparent border border-yellow-500/30 rounded-lg p-3"
+                className="mac-card flex items-center gap-3 rounded-2xl bg-white/[0.06] p-3 shadow-none"
               >
-                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500/20 text-yellow-500 text-xs font-mono font-bold">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/[0.08] text-xs font-mono font-bold text-white/[0.85]">
                   {index + 1}
                 </span>
-                <span className="font-medium text-lg tracking-wide">{winner}</span>
+                <span className="text-lg font-medium tracking-wide text-white/90">{winner}</span>
               </motion.div>
             ))}
           </AnimatePresence>
           
           {winners.length === 0 && (
-            <div className="text-center py-10 text-white/30 text-sm">
+            <div className="py-10 text-center text-sm text-white/35">
               暂无中奖者
             </div>
           )}
